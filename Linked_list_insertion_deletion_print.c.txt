@@ -1,0 +1,115 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node* next;
+};
+
+struct node* head;
+
+// this function insert a new node in the end of the list
+void insert(int num)
+{
+    struct node* Node = (struct node*)malloc(sizeof(struct node));
+    Node->data = num;
+    Node->next = NULL;
+
+    if(head == NULL){head = Node;return;}
+    struct node* temp = head;
+    
+    // loop for getting to the last element of the link list
+    while(temp->next != NULL){temp = temp->next;}
+    temp->next = Node;
+}
+
+// This function print the link list
+void print()
+{
+    struct node* temp = head;
+    if(head==NULL){return;}
+    
+    //this loop will print till n-1 element of the linked list
+    while(temp->next != NULL)
+    {
+        printf("%d, ", temp->data);
+        temp = temp->next;
+    }
+    printf("%d ", temp->data); // this print the last element of the linked list
+    //printf("%s ", temp->next);
+    printf("\n");
+}
+
+//this function delete the node at the given of a particular data;
+void del(int data)
+{
+    struct node* temp = head;
+    struct node* temp1 = head;
+    //struct node* temp2 = head;
+    int count = 0;
+
+    //checking if the linkedlist is empty
+    if(head == NULL)
+        {
+            printf("empty list");
+            return;
+        }
+    //for deleting first element of the linked list
+    else if(temp->data == data && temp->next != NULL)
+    {
+        head = temp->next;
+        free(temp);
+    }
+
+    // for the linklist having one element
+    else if(temp->data == data && temp->next == NULL)
+        {
+            free(temp);
+            printf("List is now empty");
+            head = NULL;
+            return;
+        }
+
+    //for linkedlist having more than on element
+    else
+        {
+            while(temp->next != NULL)
+            {
+                temp = temp->next;
+
+                //for the number in between first and the last element
+                if(temp->data == data && temp->next != NULL)
+                {
+                    temp1->next = temp->next;
+                    free(temp);
+                    return;
+                }
+
+                // for the last member of the linked list
+                if(temp->data == data && temp->next == NULL)
+                {
+                    free(temp);
+                    temp1->next = NULL;
+                    return;
+                }
+                
+                temp1 = temp1->next;  //this variable point to the n-1 element of the linked listt.
+            }
+        }
+}
+
+int main()
+    {
+        head = NULL;
+        insert(2);
+        insert(3);
+        insert(4);
+        insert(4);
+        insert(5);
+        print();
+        del(2);
+        del(5);
+        print();
+    return 0;
+    }
